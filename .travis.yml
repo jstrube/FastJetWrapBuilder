@@ -1,0 +1,35 @@
+language: julia
+os:
+- linux
+julia:
+- 1.0
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+  - downloads
+env:
+  global:
+  - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+  - BINARYBUILDER_AUTOMATIC_APPLE=true
+sudo: required
+before_script:
+- cd ../..
+- julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider", rev="master"))'
+- julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder", rev="master"))'
+script:
+- julia --color=yes jstrube/FastJetWrapBuilder/.ci/build_tarballs.jl
+- ls -l products/*
+deploy:
+  provider: releases
+  api_key:
+    secure: StbhcrwerQnzDZGbaDFxNv/fmzZibkmDE+UUJbJi/6gY5V8KQfGNtUSbly/eRB6i7a5JB1qtLOLxHgJpJbWEA9whqIcN1u0Mpw5oLbhohLgqSNssp7cqoXm6+2nvxoP5LkW2xg40rSn8UPjM4I8MJMb0WVi5AR18j4YP3yAlYSAG1ejXE=
+  file_glob: true
+  file: products/*
+  skip_cleanup: true
+  on:
+    repo: jstrube/FastJetWrapBuilder
+    tags: true
