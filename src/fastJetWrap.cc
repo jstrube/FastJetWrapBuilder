@@ -1,12 +1,14 @@
 #include "jlcxx/jlcxx.hpp"
+#include "fastjet/JetDefinition.hh"
+#include "fastjet/PseudoJet.hh"
 
+using namespace fastjet;
 namespace jlcxx
 {
     template<> struct IsBits<JetAlgorithm> : std::true_type {};
     template<> struct IsBits<RecombinationScheme> : std::true_type {};
-    template<> struct IsBits<JetAlgorithm> : std::true_type {};
+    template<> struct IsBits<Strategy> : std::true_type {};
 }
-
 JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 {
     fastjet.add_bits<JetAlgorithm>("JetAlgorithm");
@@ -82,8 +84,6 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("modp", &PseudoJet::modp)
     .method("Et", &PseudoJet::Et)
     .method("Et2", &PseudoJet::Et2)
-    .method("cosTheta", &PseudoJet::cosTheta)
-    .method("theta", &PseudoJet::theta)
     .method("operator[]", &PseudoJet::operator[])
     .method("kt_distance", &PseudoJet::kt_distance)
     .method("plain_distance", &PseudoJet::plain_distance)
@@ -100,6 +100,5 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 
     fastjet.add_type<ClusterSequence>("ClusterSequence")
     .constructor<const std::vector<PseudoJet>&, const JetDefinition&>()
-    .method("inclusive_jets", &ClusterSequence::inclusive_jets)
-    .method("exclusive_jets", &ClusterSequence::exclusive_jets);
+    .method("inclusive_jets", &ClusterSequence::inclusive_jets);
 }
