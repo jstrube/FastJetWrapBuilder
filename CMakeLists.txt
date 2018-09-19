@@ -13,9 +13,9 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${Julia_LIBRARY_DIR}")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${INTERFACE_INCLUDE_DIRECTORIES})
-
+link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 add_library(fastjetwrap SHARED src/fastJetWrap.cc )
-target_link_libraries(fastjetwrap JlCxx::cxxwrap_julia)
+target_link_libraries(fastjetwrap fastjetall JlCxx::cxxwrap_julia)
 
 install(TARGETS
   fastjetwrap
