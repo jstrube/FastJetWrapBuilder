@@ -9,11 +9,13 @@ add_definitions(-DJULIA_ENABLE_THREADING)
 # JlCxx_DIR needs to be passed in with -D
 find_package(JlCxx REQUIRED )
 
+
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${Julia_LIBRARY_DIR}")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${INTERFACE_INCLUDE_DIRECTORIES})
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
+add_library(fastjetall SHARED IMPORTED)
 add_library(fastjetwrap SHARED src/fastJetWrap.cc )
 target_link_libraries(fastjetwrap fastjetall JlCxx::cxxwrap_julia)
 
