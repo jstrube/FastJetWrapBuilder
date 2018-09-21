@@ -40,7 +40,7 @@ products(prefix) = [
 dependencies = [
     "https://github.com/jstrube/FastJetBuilder/releases/download/v3.3.3.3/build_FastJetBuilder.v0.1.0.jl",
     "https://github.com/JuliaInterop/libcxxwrap-julia/releases/download/v0.4.0/build_libcxxwrap-julia-1.0.v0.4.0.jl",
-    "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/1.0.0/build_Julia.v1.0.0.jl"
+#    "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/1.0.0/build_Julia.v1.0.0.jl"
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
