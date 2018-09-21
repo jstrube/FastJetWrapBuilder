@@ -18,7 +18,6 @@ function getscript(version)
 	cd /usr/local
 	curl -L "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/$version/julia-$version-\$target.tar.gz" | tar -zx --strip-components=1
 	cd \$WORKSPACE/srcdir
-	find ..
 	mkdir build && cd build
 	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_ROOT=\$Julia_ROOT ../FastJetWrapBuilder/
 	VERBOSE=ON cmake --build . --config Release --target install
