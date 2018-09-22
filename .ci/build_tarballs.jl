@@ -28,11 +28,11 @@ end
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
 platforms = [
-    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc7)),
-    Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8))
+    Linux(:x86_64, libc=:glibc),
+    #Linux(:x86_64, libc=:glibc, compiler_abi=CompilerABI(:gcc8))
 ]
 
-platforms = expand_gcc_versions(platforms)
+#platforms = expand_gcc_versions(platforms)
 
 # The products that we will ensure are always built
 products(prefix) = [
