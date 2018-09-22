@@ -14,12 +14,12 @@ sources = [
 function getscript(version)
 	shortversion = version[1:3]
 	return """
-	Julia_ROOT=/usr/local
-	cd /usr/local
-	curl -L "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/$version/julia-$version-\$target.tar.gz" | tar -zx --strip-components=1
+	#Julia_ROOT=/usr/local
+	#cd /usr/local
+	#curl -L "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/$version/julia-$version-\$target.tar.gz" | tar -zx --strip-components=1
 	cd \$WORKSPACE/srcdir
 	mkdir build && cd build
-	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_ROOT=\$Julia_ROOT ../FastJetWrapBuilder/
+	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_ROOT=\$prefix/julia-$shortversion ../FastJetWrapBuilder/
 	VERBOSE=ON cmake --build . --config Release --target install
 	"""
 end
@@ -41,9 +41,8 @@ products(prefix) = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    "https://github.com/jstrube/FastJetBuilder/releases/download/v3.3.3.3/build_FastJetBuilder.v0.1.0.jl",
     "https://github.com/JuliaInterop/libcxxwrap-julia/releases/download/v0.4.0/build_libcxxwrap-julia-1.0.v0.4.0.jl",
-#    "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/1.0.0/build_Julia.v1.0.0.jl"
+    "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/1.0.0/build_Julia.v1.0.0.jl"
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.

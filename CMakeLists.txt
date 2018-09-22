@@ -20,10 +20,10 @@ link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 #set_target_properties(fastjetall PROPERTIES
 #  IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}fastjetall${CMAKE_SHARED_LIBRARY_SUFFIX}"
 #)
-set (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-as-needed")
+#set (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-as-needed")
 ######################################################
-add_library(fastjetwrap SHARED src/fastJetWrap.cc)
-target_link_libraries(fastjetwrap fastjet JlCxx::cxxwrap_julia)
+add_library(fastjetwrap SHARED src/fastJetWrap.cc src/fjcore.cc)
+target_link_libraries(fastjetwrap JlCxx::cxxwrap_julia)
 install(TARGETS
   fastjetwrap
 LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
