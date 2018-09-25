@@ -1,8 +1,9 @@
 #include "jlcxx/jlcxx.hpp"
-#include "fastjet/JetDefinition.hh"
-#include "fastjet/PseudoJet.hh"
+#include "fjcore.hh"
+#include <vector>
 
-using namespace fastjet;
+using namespace std;
+using namespace fjcore;
 namespace jlcxx
 {
     template<> struct IsBits<JetAlgorithm> : std::true_type {};
@@ -91,12 +92,28 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("delta_R", &PseudoJet::delta_R)
     .method("delta_phi_to", &PseudoJet::delta_phi_to)
     .method("beam_distance", &PseudoJet::beam_distance)
-    .method("four_mom", &PseudoJet::four_mom);
+    .method("four_mom", &PseudoJet::four_mom)
+    .method("constituents", &PseudoJet::constituents);
 
     // we mostly don't need the jet definition on the julia side.
     // only used to instantiate the clustering
     fastjet.add_type<JetDefinition>("JetDefinition")
-    .constructor<const JetAlgorithm>();
+    .constructor<const JetAlgorithm, double>();
+
+    fastjet.add_type<vector<PseudoJet>>("JetVec")
+    .method("size", &vector<PseudoJet>::size);
+    fastjet.method("at", [](const vector<PseudoJet>* vec, size_t i) {
+        return vec->at(i);
+    });
+
+    fastjet.method("ClusterSequence", [](jlcxx::ArrayRef<jl_value_t*> vec, const JetDefinition& jd) {
+        vector<PseudoJet> pjvec;
+        for(jl_value_t* v : vec) {
+            const PseudoJet& j = *jlcxx::unbox_wrapped_ptr<PseudoJet>(v);
+            pjvec.push_back(j);
+        }
+        return ClusterSequence(pjvec, jd);
+    });
 
     fastjet.add_type<ClusterSequence>("ClusterSequence")
     .constructor<const std::vector<PseudoJet>&, const JetDefinition&>()

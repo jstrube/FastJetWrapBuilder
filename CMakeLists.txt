@@ -22,10 +22,11 @@ link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 #)
 #set (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-as-needed")
 ######################################################
+add_library(fjcore SHARED src/fjcore)
 add_library(fastjetwrap SHARED src/fastJetWrap.cc src/fjcore.cc)
 target_link_libraries(fastjetwrap JlCxx::cxxwrap_julia)
 install(TARGETS
-  fastjetwrap
+  fastjetwrap fjcore
 LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
 ARCHIVE DESTINATION lib${LIBDIR_SUFFIX}
 RUNTIME DESTINATION lib${LIBDIR_SUFFIX}
