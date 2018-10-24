@@ -14,9 +14,7 @@ sources = [
 function getscript(version)
 	shortversion = version[1:3]
 	return """
-	#Julia_ROOT=/usr/local
-	#cd /usr/local
-	#curl -L "https://github.com/JuliaPackaging/JuliaBuilder/releases/download/$version/julia-$version-\$target.tar.gz" | tar -zx --strip-components=1
+	JlCxx_DIR=$\prefix/lib/cmake/JlCxx/
 	cd \$WORKSPACE/srcdir
 	mkdir build && cd build
 	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_ROOT=\$prefix/julia-$version ../FastJetWrapBuilder/
