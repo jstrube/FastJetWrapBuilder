@@ -14,7 +14,7 @@ sources = [
 function getscript(version)
 	shortversion = version[1:3]
 	return """
-	JlCxx_DIR=$\prefix/lib/cmake/JlCxx/
+	JlCxx_DIR=\$prefix/lib/cmake/JlCxx/
 	cd \$WORKSPACE/srcdir
 	mkdir build && cd build
 	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_ROOT=\$prefix/julia-$version ../FastJetWrapBuilder/
