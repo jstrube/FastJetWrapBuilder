@@ -92,8 +92,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("delta_R", &PseudoJet::delta_R)
     .method("delta_phi_to", &PseudoJet::delta_phi_to)
     .method("beam_distance", &PseudoJet::beam_distance)
-    .method("four_mom", &PseudoJet::four_mom)
-    .method("constituents", &PseudoJet::constituents);
+    .method("four_mom", &PseudoJet::four_mom);
 
     // we mostly don't need the jet definition on the julia side.
     // only used to instantiate the clustering
@@ -102,9 +101,13 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 
     fastjet.add_type<vector<PseudoJet>>("JetVec")
     .method("size", &vector<PseudoJet>::size);
-    fastjet.method("at", [](const vector<PseudoJet>* vec, size_t i) {
-        return vec->at(i);
+    fastjet.method("at", [](const vector<PseudoJet>& vec, size_t i) {
+        return vec.at(i);
     });
+
+    fastjet.method("constituents", [](const PseudoJet& pj) {
+		return pj.constituents();
+	});
 
     fastjet.method("ClusterSequence", [](jlcxx::ArrayRef<jl_value_t*> vec, const JetDefinition& jd) {
         vector<PseudoJet> pjvec;
