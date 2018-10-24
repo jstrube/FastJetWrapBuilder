@@ -17,7 +17,7 @@ function getscript(version)
 	JlCxx_DIR=\$prefix/lib/cmake/JlCxx/
 	cd \$WORKSPACE/srcdir
 	mkdir build && cd build
-	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DJulia_PREFIX=\$prefix/julia-$version ../FastJetWrapBuilder/
+	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DCMAKE_FIND_ROOT_PATH=\$prefix -DJulia_PREFIX=\$prefix/julia-$version ../FastJetWrapBuilder/
 	VERBOSE=ON cmake --build . --config Release --target install
 	"""
 end
