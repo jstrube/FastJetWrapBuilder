@@ -21,7 +21,7 @@ before_script:
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider", rev="master"))'
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder", rev="master"))'
 script:
-- julia --color=yes jstrube/FastJetWrapBuilder/.ci/build_tarballs.jl --verbose
+- julia --color=yes FastJetWrapBuilder/.ci/build_tarballs.jl --verbose
 - ls -l products/*
 deploy:
   provider: releases
