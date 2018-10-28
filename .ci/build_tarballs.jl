@@ -6,18 +6,18 @@ name = "FastJetWrapBuilder"
 
 # Collection of sources required to build Fjwbuilder
 sources = [
-    "https://github.com/jstrube/FastJetWrapBuilder.git" =>
-    "0b7d7155f322559fea220d5dc95c09867d127d75",
+	   "FastJetWrapBuilder"
 ]
 
 # Bash recipe for building across all platforms
 function getscript(version)
 	shortversion = version[1:3]
 	return """
-	JlCxx_DIR=\$prefix/lib/cmake/JlCxx/
-	cd \$WORKSPACE/srcdir
+	JlCxx_DIR=\${prefix}/lib/cmake/JlCxx/
+	cd \${WORKSPACE}/srcdir/
+	pwd
 	mkdir build && cd build
-	cmake -DCMAKE_INSTALL_PREFIX=\$prefix -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DCMAKE_FIND_ROOT_PATH=\$prefix -DJulia_PREFIX=\$prefix/julia-$version ../FastJetWrapBuilder/
+	cmake -DCMAKE_INSTALL_PREFIX=\${prefix} -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DCMAKE_FIND_ROOT_PATH=\${prefix} -DJulia_PREFIX=\${prefix} ..
 	VERBOSE=ON cmake --build . --config Release --target install
 	"""
 end

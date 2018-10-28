@@ -17,7 +17,7 @@ env:
   - BINARYBUILDER_AUTOMATIC_APPLE=true
 sudo: required
 before_script:
-- cd ../..
+- cd ..
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider", rev="master"))'
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder", rev="master"))'
 script:
