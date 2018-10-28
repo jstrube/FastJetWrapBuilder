@@ -15,10 +15,9 @@ function getscript(version)
 	return """
 	JlCxx_DIR=\${prefix}/lib/cmake/JlCxx/
 	cd \${WORKSPACE}/srcdir/
-	pwd
 	mkdir build && cd build
 	cmake -DCMAKE_INSTALL_PREFIX=\${prefix} -DCMAKE_TOOLCHAIN_FILE=/opt/\$target/\$target.toolchain -DCMAKE_FIND_ROOT_PATH=\${prefix} -DJulia_PREFIX=\${prefix} ..
-	VERBOSE=ON cmake --build . --config Release --target install
+	VERBOSE=OFF cmake --build . --config Release --target install
 	"""
 end
 # Bash recipe for building across all platforms
