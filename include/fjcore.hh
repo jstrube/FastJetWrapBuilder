@@ -1,4 +1,4 @@
-// fjcore -- extracted from FastJet v3.3.1 (http://fastjet.fr)
+// fjcore -- extracted from FastJet v3.3.2 (http://fastjet.fr)
 //
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
@@ -86,12 +86,14 @@
 #define __FJCORE_DROP_CGAL    // disable CGAL support
 #ifndef _INCLUDE_FJCORE_CONFIG_AUTO_H
 #define _INCLUDE_FJCORE_CONFIG_AUTO_H 1
-#ifndef FJCORE_HAVE_AUTO_PTR_INTERFACE 
+#ifndef FJCORE_HAVE_CXX14_DEPRECATED 
 #endif
 #ifndef FJCORE_HAVE_DLFCN_H 
 # define FJCORE_HAVE_DLFCN_H  1 
 #endif
 #ifndef FJCORE_HAVE_EXECINFO_H 
+#endif
+#ifndef FJCORE_HAVE_EXPLICIT_FOR_OPERATORS 
 #endif
 #ifndef FJCORE_HAVE_GNUCXX_DEPRECATED 
 #endif
@@ -103,6 +105,8 @@
 #endif
 #ifndef FJCORE_HAVE_MEMORY_H 
 # define FJCORE_HAVE_MEMORY_H  1 
+#endif
+#ifndef FJCORE_HAVE_OVERRIDE 
 #endif
 #ifndef FJCORE_HAVE_STDINT_H 
 # define FJCORE_HAVE_STDINT_H  1 
@@ -138,7 +142,7 @@
 # define FJCORE_PACKAGE_NAME  "FastJet" 
 #endif
 #ifndef FJCORE_PACKAGE_STRING 
-# define FJCORE_PACKAGE_STRING  "FastJet 3.3.1" 
+# define FJCORE_PACKAGE_STRING  "FastJet 3.3.2" 
 #endif
 #ifndef FJCORE_PACKAGE_TARNAME 
 # define FJCORE_PACKAGE_TARNAME  "fastjet" 
@@ -147,13 +151,13 @@
 # define FJCORE_PACKAGE_URL  "" 
 #endif
 #ifndef FJCORE_PACKAGE_VERSION 
-# define FJCORE_PACKAGE_VERSION  "3.3.1" 
+# define FJCORE_PACKAGE_VERSION  "3.3.2" 
 #endif
 #ifndef FJCORE_STDC_HEADERS 
 # define FJCORE_STDC_HEADERS  1 
 #endif
 #ifndef FJCORE_VERSION 
-# define FJCORE_VERSION  "3.3.1" 
+# define FJCORE_VERSION  "3.3.2" 
 #endif
 #ifndef FJCORE_VERSION_MAJOR 
 # define FJCORE_VERSION_MAJOR  3 
@@ -162,10 +166,10 @@
 # define FJCORE_VERSION_MINOR  3 
 #endif
 #ifndef FJCORE_VERSION_NUMBER 
-# define FJCORE_VERSION_NUMBER  30301 
+# define FJCORE_VERSION_NUMBER  30302 
 #endif
 #ifndef FJCORE_VERSION_PATCHLEVEL 
-# define FJCORE_VERSION_PATCHLEVEL  1 
+# define FJCORE_VERSION_PATCHLEVEL  2 
 #endif
 #endif
 #ifndef __FJCORE_CONFIG_H__
@@ -361,16 +365,6 @@ public:
     if (_ptr==NULL) return;
     _ptr->set_count(count);
   }
-  /**
-   * \if internal_doc
-   * \class __SharedCountingPtr
-   * A reference-counting pointer
-   *
-   * This is implemented as a container for that pointer together with
-   * reference counting.
-   * The pointer is deleted when the number of counts goes to 0;
-   * \endif
-   */
   class __SharedCountingPtr{
   public:
     __SharedCountingPtr() : _ptr(NULL), _count(0){}
