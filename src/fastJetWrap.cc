@@ -1,18 +1,15 @@
 #include "jlcxx/jlcxx.hpp"
+#include "jlcxx/stl.hpp"
+
 #include "fjcore.hh"
 #include <vector>
 
 using namespace std;
 using namespace fjcore;
-namespace jlcxx
-{
-    template<> struct IsBits<JetAlgorithm> : std::true_type {};
-    template<> struct IsBits<RecombinationScheme> : std::true_type {};
-    template<> struct IsBits<Strategy> : std::true_type {};
-}
+
 JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 {
-    fastjet.add_bits<JetAlgorithm>("JetAlgorithm");
+    fastjet.add_bits<JetAlgorithm>("JetAlgorithm", jlcxx::julia_type("CppEnum"));
     fastjet.set_const("kt_algorithm", kt_algorithm);
     fastjet.set_const("cambridge_algorithm", cambridge_algorithm);
     fastjet.set_const("antikt_algorithm", antikt_algorithm);
@@ -24,7 +21,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     fastjet.set_const("plugin_algorithm", plugin_algorithm);
     fastjet.set_const("undefined_jet_algorithm", undefined_jet_algorithm);
 
-    fastjet.add_bits<RecombinationScheme>("RecombinationScheme");
+    fastjet.add_bits<RecombinationScheme>("RecombinationScheme", jlcxx::julia_type("CppEnum"));
     fastjet.set_const("E_scheme", E_scheme);
     fastjet.set_const("pt_scheme", pt_scheme);
     fastjet.set_const("pt2_scheme", pt2_scheme);
@@ -36,7 +33,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     fastjet.set_const("WTA_modp_scheme", WTA_modp_scheme);
     fastjet.set_const("external_scheme", external_scheme);
 
-    fastjet.add_bits<Strategy>("Strategy");
+    fastjet.add_bits<Strategy>("Strategy", jlcxx::julia_type("CppEnum"));
     fastjet.set_const("N2MHTLazy9AntiKtSeparateGhosts", N2MHTLazy9AntiKtSeparateGhosts);
     fastjet.set_const("N2MHTLazy9", N2MHTLazy9);
     fastjet.set_const("N2MHTLazy25", N2MHTLazy25);
@@ -91,32 +88,26 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("squared_distance", &PseudoJet::squared_distance)
     .method("delta_R", &PseudoJet::delta_R)
     .method("delta_phi_to", &PseudoJet::delta_phi_to)
-    .method("beam_distance", &PseudoJet::beam_distance)
-    .method("four_mom", &PseudoJet::four_mom);
+    .method("beam_distance", &PseudoJet::beam_distance);
+
+    // four_mom returns a valarray... There's no factory for this, yet, so we're just returning a vector here
+    fastjet.method("four_mom", [](const PseudoJet& pj)->std::vector<double> {
+        vector<double> mom(4);
+        mom[0] = pj.px();
+        mom[1] = pj.py();
+        mom[2] = pj.pz();
+        mom[4] = pj.e();
+        return mom;
+    });
 
     // we mostly don't need the jet definition on the julia side.
     // only used to instantiate the clustering
     fastjet.add_type<JetDefinition>("JetDefinition")
     .constructor<const JetAlgorithm, double>();
 
-    fastjet.add_type<vector<PseudoJet>>("JetVec")
-    .method("size", &vector<PseudoJet>::size);
-    fastjet.method("at", [](const vector<PseudoJet>& vec, size_t i) {
-        return vec.at(i);
-    });
-
     fastjet.method("constituents", [](const PseudoJet& pj) {
 		return pj.constituents();
 	});
-
-    fastjet.method("ClusterSequence", [](jlcxx::ArrayRef<jl_value_t*> vec, const JetDefinition& jd) {
-        vector<PseudoJet> pjvec;
-        for(jl_value_t* v : vec) {
-            const PseudoJet& j = *jlcxx::unbox_wrapped_ptr<PseudoJet>(v);
-            pjvec.push_back(j);
-        }
-        return ClusterSequence(pjvec, jd);
-    });
 
     fastjet.add_type<ClusterSequence>("ClusterSequence")
     .constructor<const std::vector<PseudoJet>&, const JetDefinition&>()
