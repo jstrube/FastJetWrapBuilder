@@ -1,11 +1,12 @@
 #include "jlcxx/jlcxx.hpp"
 #include "jlcxx/stl.hpp"
 
-#include "fjcore.hh"
+#include "fastjet/ClusterSequence.hh"
+// #include "fjcore.hh"
 #include <vector>
 
 using namespace std;
-using namespace fjcore;
+using namespace fastjet;
 
 JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 {

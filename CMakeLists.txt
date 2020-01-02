@@ -12,7 +12,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${Julia_LIBRARY_DIR}")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${INTERFACE_INCLUDE_DIRECTORIES})
-link_directories(${CMAKE_INSTALL_PREFIX}/lib)
+link_directories(${CMAKE_INSTALL_PREFIX}/lib lib)
 
 ################ This was a hack that is fortunately no longer needed ####################
 # but maybe the code is still useful in the future...
@@ -22,11 +22,11 @@ link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 #)
 #set (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-as-needed")
 ######################################################
-add_library(fjcore SHARED src/fjcore)
-add_library(fastjetwrap SHARED src/fastJetWrap.cc src/fjcore.cc)
-target_link_libraries(fastjetwrap JlCxx::cxxwrap_julia JlCxx::cxxwrap_julia_stl)
+# add_library(fjcore SHARED src/fjcore)
+add_library(fastjetwrap SHARED src/fastJetWrap.cc)
+target_link_libraries(fastjetwrap JlCxx::cxxwrap_julia JlCxx::cxxwrap_julia_stl fastjet)
 install(TARGETS
-  fastjetwrap fjcore
+  fastjetwrap
 LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
 ARCHIVE DESTINATION lib${LIBDIR_SUFFIX}
 RUNTIME DESTINATION lib${LIBDIR_SUFFIX}
