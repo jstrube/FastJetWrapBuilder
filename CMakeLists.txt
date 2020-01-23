@@ -1,6 +1,6 @@
 project(fastjetwrapper)
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.3)
 # this helps Libdl.dlopen find the right paths
 set(CMAKE_MACOSX_RPATH 0)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -10,7 +10,7 @@ find_package(JlCxx REQUIRED )
 
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${Julia_LIBRARY_DIR}")
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_INSTALL_PREFIX}/include)
 include_directories(${INTERFACE_INCLUDE_DIRECTORIES})
 link_directories(${CMAKE_INSTALL_PREFIX}/lib lib)
 
