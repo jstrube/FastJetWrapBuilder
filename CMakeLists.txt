@@ -1,6 +1,6 @@
+cmake_minimum_required(VERSION 3.3)
 project(fastjetwrapper)
 
-cmake_minimum_required(VERSION 3.3)
 # this helps Libdl.dlopen find the right paths
 set(CMAKE_MACOSX_RPATH 0)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
