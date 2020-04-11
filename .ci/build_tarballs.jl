@@ -2,7 +2,7 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
-name = "FastJetWrapBuilder"
+name = "FastJet_Julia_Wrapper"
 version_number = get(ENV, "TRAVIS_TAG", "")
 if version_number == ""
     version_number = "v0.99"
@@ -40,7 +40,7 @@ products = [
 # Dependencies that must be installed before this package can be built
 dependencies = [
 	Dependency("libcxxwrap_julia_jll"),
-	Dependency("Fastjet_jll")
+	Dependency("FastJet_jll")
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
