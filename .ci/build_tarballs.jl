@@ -11,21 +11,17 @@ version = VersionNumber(version_number)
 
 # Collection of sources required to build Fjwbuilder
 sources = [
-	   "FastJet_Julia_Wrapper"
+	"FastJet_Julia_Wrapper",
+	ArchiveSource("https://julialang-s3.julialang.org/bin/linux/x64/1.3/julia-1.3.1-linux-x86_64.tar.gz", "faa707c8343780a6fe5eaf13490355e8190acf8e2c189b9e7ecbddb0fa2643ad"; unpack_target="julia-x86_64-linux-gnu"),
 ]
 
 # Bash recipe for building across all platforms
 script = raw"""
-wget https://github.com/JuliaPackaging/JuliaBuilder/releases/download/v1.0.0-2/julia-1.0.0-${target}.tar.gz
-mkdir julia
-cd julia
-tar xf ../julia-1.0.0-${target}.tar.gz
-export PATH=$(pwd)/bin:${PATH}
-ln -s ${WORKSPACE}/srcdir/julia/include/ /opt/${target}/${target}/sys-root/usr/local
+Julia_PREFIX=${WORKSPACE}/srcdir/julia-$target/julia-1.3.1
 cd ${WORKSPACE}/srcdir
 mkdir build && cd build
 export JlCxx_DIR=${prefix}
-cmake -DCMAKE_INSTALL_PREFIX=${prefix} -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} -DCMAKE_BUILD_TYPE=Release ..
+cmake -DJulia_PREFIX=${Julia_PREFIX} -DCMAKE_INSTALL_PREFIX=${prefix} -DCMAKE_FIND_ROOT_PATH=${prefix} -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} -DCMAKE_BUILD_TYPE=Release ..
 VERBOSE=ON cmake --build . --config Release --target install
 """
 
@@ -43,8 +39,8 @@ products = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-	"libcxxwrap_julia_jll",
-	"Fastjet_jll"
+	Dependency("libcxxwrap_julia_jll"),
+	Dependency("Fastjet_jll")
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
