@@ -22,6 +22,7 @@ before_script:
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider"))'
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder"))'
 script:
+- find .
 - julia --color=yes FastJetWrapBuilder/.ci/build_tarballs.jl --verbose
 - ls -l products/*
 deploy:
