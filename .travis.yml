@@ -19,11 +19,9 @@ env:
 sudo: required
 before_script:
 - cd ..
-- julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryProvider"))'
 - julia -e 'using Pkg; Pkg.add(PackageSpec(name="BinaryBuilder"))'
 script:
-- find .
-- julia --color=yes FastJetWrapBuilder/.ci/build_tarballs.jl --verbose
+- julia --color=yes FastJet_Julia_Wrapper/.ci/build_tarballs.jl --verbose
 - ls -l products/*
 deploy:
   provider: releases
@@ -33,5 +31,5 @@ deploy:
   file: products/*
   skip_cleanup: true
   on:
-    repo: jstrube/FastJetWrapBuilder
+    repo: jstrube/FastJet_Julia_Wrapper
     tags: true
