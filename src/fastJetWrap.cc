@@ -2,7 +2,7 @@
 #include "jlcxx/stl.hpp"
 
 #include "fastjet/ClusterSequence.hh"
-// #include "fjcore.hh"
+#include "fastjet/ValenciaPlugin.hh"
 #include <vector>
 
 using namespace std;
@@ -105,6 +105,16 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     // only used to instantiate the clustering
     fastjet.add_type<JetDefinition>("JetDefinition")
     .constructor<const JetAlgorithm, double>();
+
+    fastjet.add_type<JetDefinition::Plugin>("JetDefinitionPlugin");
+
+    fastjet.add_type<contrib::ValenciaPlugin>("ValenciaPlugin", jlcxx::julia_base_type<JetDefinition::Plugin>())
+    .constructor<double, double>()
+    .constructor<double, double, double>();
+
+    fastjet.method("JetDefinition", [](const JetDefinition::Plugin* p) {
+        return JetDefinition(p);
+    });
 
     fastjet.method("constituents", [](const PseudoJet& pj) {
 		return pj.constituents();
