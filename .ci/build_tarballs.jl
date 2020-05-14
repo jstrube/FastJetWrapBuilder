@@ -4,7 +4,7 @@ using BinaryBuilder
 using Pkg
 
 name = "FastJet_Julia_Wrapper"
-version = v"0.7.0"
+version = v"0.7.2"
 
 # Collection of sources required to build Fjwbuilder
 sources = [

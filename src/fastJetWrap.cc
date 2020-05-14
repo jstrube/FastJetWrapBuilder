@@ -8,6 +8,12 @@
 using namespace std;
 using namespace fastjet;
 
+namespace jlcxx {
+    template<> struct SuperType<contrib::ValenciaPlugin> {
+        using type = JetDefinition::Plugin; 
+    };
+}
+
 JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
 {
     fastjet.add_bits<JetAlgorithm>("JetAlgorithm", jlcxx::julia_type("CppEnum"));
@@ -112,8 +118,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .constructor<double, double>()
     .constructor<double, double, double>();
 
-    fastjet.method("JetDefinition", [](const JetDefinition::Plugin* p) {
-        return JetDefinition(p);
+    fastjet.method("JetDefinition", [](const JetDefinition::Plugin& p) {
+        return JetDefinition(&p);
     });
 
     fastjet.method("constituents", [](const PseudoJet& pj) {
