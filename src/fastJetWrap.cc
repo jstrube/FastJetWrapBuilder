@@ -95,7 +95,9 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("squared_distance", &PseudoJet::squared_distance)
     .method("delta_R", &PseudoJet::delta_R)
     .method("delta_phi_to", &PseudoJet::delta_phi_to)
-    .method("beam_distance", &PseudoJet::beam_distance);
+    .method("beam_distance", &PseudoJet::beam_distance)
+    .method("set_user_index", &PseudoJet::set_user_index)
+    .method("user_index", &PseudoJet::user_index);
 
     // four_mom returns a valarray... There's no factory for this, yet, so we're just returning a vector here
     fastjet.method("four_mom", [](const PseudoJet& pj)->std::vector<double> {
