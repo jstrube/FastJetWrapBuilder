@@ -131,7 +131,12 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     fastjet.add_type<ClusterSequence>("ClusterSequence")
     .constructor<const std::vector<PseudoJet>&, const JetDefinition&>()
     .method("inclusive_jets", &ClusterSequence::inclusive_jets)
-    .method("exclusive_jets_up_to", &ClusterSequence::exclusive_jets_up_to);
+    .method("exclusive_jets_up_to", &ClusterSequence::exclusive_jets_up_to)
+    .method("n_exclusive_jets_ycut", &ClusterSequence::n_exclusive_jets_ycut)
+    .method("will_delete_self_when_unused", &ClusterSequence::will_delete_self_when_unused)
+    .method("plugin_activated", &ClusterSequence::plugin_activated)
+    .method("n_particles", &ClusterSequence::n_particles)
+    .method("Q", &ClusterSequence::Q);
 
     fastjet.method("exclusive_jets", [](const ClusterSequence& cs, const int nJets) {
         return cs.exclusive_jets(nJets);
