@@ -89,7 +89,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("modp", &PseudoJet::modp)
     .method("Et", &PseudoJet::Et)
     .method("Et2", &PseudoJet::Et2)
-    .method("operator[]", &PseudoJet::operator[])
+    .method("_getindex", &PseudoJet::operator[])
     .method("kt_distance", &PseudoJet::kt_distance)
     .method("plain_distance", &PseudoJet::plain_distance)
     .method("squared_distance", &PseudoJet::squared_distance)
@@ -97,17 +97,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     .method("delta_phi_to", &PseudoJet::delta_phi_to)
     .method("beam_distance", &PseudoJet::beam_distance)
     .method("set_user_index", &PseudoJet::set_user_index)
-    .method("user_index", &PseudoJet::user_index);
-
-    // four_mom returns a valarray... There's no factory for this, yet, so we're just returning a vector here
-    fastjet.method("four_mom", [](const PseudoJet& pj)->std::vector<double> {
-        vector<double> mom(4);
-        mom[0] = pj.px();
-        mom[1] = pj.py();
-        mom[2] = pj.pz();
-        mom[4] = pj.e();
-        return mom;
-    });
+    .method("user_index", &PseudoJet::user_index)
+    .method("four_mom", &PseudoJet::four_mom);
 
     // we mostly don't need the jet definition on the julia side.
     // only used to instantiate the clustering
