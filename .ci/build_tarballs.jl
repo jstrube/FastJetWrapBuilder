@@ -3,8 +3,10 @@
 using BinaryBuilder
 using Pkg
 
+julia_version = v"1.5.3"
+
 name = "FastJet_Julia_Wrapper"
-version = v"0.8.4-alpha1"
+version = v"0.8.5-alpha1"
 
 # Collection of sources required to build Fjwbuilder
 sources = [
@@ -33,10 +35,10 @@ products = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-	Dependency(PackageSpec(name="libcxxwrap_julia_jll", version=v"0.8")),
-	Dependency("FastJet_jll"),
-    BuildDependency(PackageSpec(name="Julia_jll", version=v"1.4.1"))
+	Dependency(PackageSpec(name="libcxxwrap_julia_jll", version=v"0.8.5")),
+    Dependency("FastJet_jll"),
+    BuildDependency(PackageSpec(name="libjulia_jll", version=julia_version))
 ]
 
-# Build the tarballs, and possibly a `build.jl` as well.
-build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; preferred_gcc_version=v"7")
+build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; 
+    preferred_gcc_version=v"7", julia_compat = "^$(julia_version.major).$(julia_version.minor)")
