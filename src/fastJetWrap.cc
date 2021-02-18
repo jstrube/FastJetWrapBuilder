@@ -103,7 +103,9 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& fastjet)
     // we mostly don't need the jet definition on the julia side.
     // only used to instantiate the clustering
     fastjet.add_type<JetDefinition>("JetDefinition")
-    .constructor<const JetAlgorithm, double>();
+    .constructor<const JetAlgorithm>()
+    .constructor<const JetAlgorithm, double>()
+    .constructor<const JetAlgorithm, double, double>();
 
     fastjet.add_type<JetDefinition::Plugin>("JetDefinitionPlugin");
 

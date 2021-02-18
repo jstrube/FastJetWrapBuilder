@@ -24,8 +24,8 @@ install_license $WORKSPACE/srcdir/LICENSE.md
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
-platforms = Platform[
-    Linux(:x86_64; libc=:glibc, compiler_abi=CompilerABI(cxxstring_abi=:cxx11))
+platforms = [
+    Linux(:x86_64; libc=:glibc)
 ]
 
 # The products that we will ensure are always built
@@ -41,4 +41,4 @@ dependencies = [
 ]
 
 build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; 
-    preferred_gcc_version=v"7", julia_compat = "^$(julia_version.major).$(julia_version.minor)")
+    preferred_gcc_version=v"8", julia_compat = "^$(julia_version.major).$(julia_version.minor)")
